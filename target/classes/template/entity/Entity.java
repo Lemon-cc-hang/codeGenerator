@@ -4,34 +4,40 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
 import com.baomidou.mybatisplus.annotation.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 <#list typeSet as set>
-import ${set}
+import ${set};
 </#list>
 /**
- * @auther ${author}
- * @description ${tableUpper} 构建
- * @date
+ * <p>
+ *     ${tableUpper} 构建
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
  *
  */
+@Data
+@EqualsAndHashCode
 <#if swagger==true>
 @ApiModel(description = "${tableUpper}",value = "${tableUpper}")
 </#if>
-@Table(name="${tableName}")
-public class ${tableUpper} implements Serializable{
+public class ${tableUpper} implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
 <#list models as model>
     <#if swagger==true>
-    @ApiModelProperty(value = "${model.desc!""}", required = false)
+    @ApiModelProperty(value = "${model.desc!""}")
     </#if>
-    <#if model.id==true>
+    <#if model.id==true && model.identity='YES'>
+    @TableId(type = IdType.AUTO)
+    <#elseif model.id==true>
     @TableId
-        <#if model.identity=='YES'>
-        (type = IdType.AUTO)
-        </#if>
     </#if>
     private ${model.simpleType} ${model.name};
+
 </#list>
 }

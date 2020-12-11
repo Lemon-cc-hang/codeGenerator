@@ -27,8 +27,7 @@ public class BuilderFactory {
                                String suffix) {
         try {
             // 获取模板对象
-            // TODO 看是否能修改成 BuilderFactory.class
-            Template template = TemplateUtil.loadTemplate(ControllerBuilder.class.getResource(templatePath).getPath(), templateFile);
+            Template template = TemplateUtil.loadTemplate(BuilderFactory.class.getResource(templatePath).getPath(), templateFile);
 
             // 创建文件夹
             String path = TemplateBuilder.PROJECT_PATH + storePath.replace(".", "/");
@@ -38,7 +37,7 @@ public class BuilderFactory {
             }
 
             // 创建文件
-            TemplateUtil.writer(template, modelMap, path + "/" + modelMap.get("Table") + suffix);
+            TemplateUtil.writer(template, modelMap, path + "/" + modelMap.get("tableUpper") + suffix);
         } catch (Exception e) {
             e.printStackTrace();
         }

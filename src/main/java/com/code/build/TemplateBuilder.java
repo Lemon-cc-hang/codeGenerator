@@ -7,7 +7,9 @@ import com.code.utils.StringUtils;
 
 import java.io.InputStream;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 
 /**
  * 模板构造
@@ -112,6 +114,16 @@ public class TemplateBuilder {
      */
     public static String AUTHOR;
 
+    /**
+     * 需要生成的表名
+     */
+    public static String[] TABLE_NAME;
+
+    /**
+     * 时间
+     */
+    public static final String DATE = new SimpleDateFormat("yyyy-MM-dd").format(new Date().getTime());
+
     static {
         try {
             // 加载配置文件
@@ -136,10 +148,11 @@ public class TemplateBuilder {
             SWAGGER_UI_PATH = PACKAGE_PARENT + "." + PROPERTIES.getProperty("swagger.ui.path");
             TABLE_PREFIX = PROPERTIES.getProperty("table.prefix").split(",");
             AUTHOR = PROPERTIES.getProperty("author");
+            TABLE_NAME = PROPERTIES.getProperty("table.name").split(",");
 
             // 工程路径
             PROJECT_PATH = Objects.requireNonNull(TemplateBuilder.class.getClassLoader().getResource("")).getPath().replace("/target/classes", "") + "/src/main/java/";
-            
+
             // 加载数据库驱动
             Class.forName(MYSQL_DRIVER_CLASS_NAME);
 
@@ -162,8 +175,6 @@ public class TemplateBuilder {
             
             // 针对MySQL数据库进行相关的生成操作
             if (databaseType.equals(MYSQL)) {
-                // 获取所有表结构
-                ResultSet tables = metaData.getTables(null, "%", "%", new String[]{"TABLE"});
 
                 // 获取数据库名字
                 String database = connection.getCatalog();
@@ -172,68 +183,73 @@ public class TemplateBuilder {
                 List<SwaggerModel> swaggerModels = new ArrayList<>();
                 List<SwaggerPath> swaggerPaths = new ArrayList<>();
 
-                // 循环所有表信息
-                while (tables.next()) {
-                    // 获取表名
-                    String tableName = tables.getString("TABLE_NAME");
-                    // 名字操作, 去表tab_, tb_, 去掉_并转驼峰
-                    String table = StringUtils.replace(StringUtils.replaceTab(StringUtils.removePrefix(tableName, TABLE_PREFIX)));
-                    // 大写对象
-                    String tableUpper = StringUtils.firstUpper(table);
+                // 获取所有表结构
+                for (String table_ : TABLE_NAME) {
+                    ResultSet tables = metaData.getTables(null, "%", table_, new String[]{"TABLE"});
+                    // 循环所有表信息
+                    while (tables.next()) {
+                        // 获取表名
+                        String tableName = tables.getString("TABLE_NAME");
+                        // 名字操作, 去表tab_, tb_, 去掉_并转驼峰
+                        String table = StringUtils.replace(StringUtils.replaceTab(StringUtils.removePrefix(tableName, TABLE_PREFIX)));
+                        // 大写对象
+                        String tableUpper = StringUtils.firstUpper(table);
 
-                    // 需要生成的Pojo属性集合
-                    List<ModelInfo> models = new ArrayList<>();
-                    // 所有需要导包的类型
-                    Set<String> typeSet = new HashSet<>();
+                        // 需要生成的Pojo属性集合
+                        List<ModelInfo> models = new ArrayList<>();
+                        // 所有需要导包的类型
+                        Set<String> typeSet = new HashSet<>();
 
-                    // 获取表所有的列
-                    ResultSet columnsSet = metaData.getColumns(database, MYSQL_USERNAME, tableName, null);
-                    // 获取所有的主键
-                    ResultSet keySet = metaData.getPrimaryKeys(database, MYSQL_USERNAME, tableName);
-                    String key = "";
-                    while (keySet.next()) {
-                        key = keySet.getString(4);
+                        // 获取表所有的列
+                        ResultSet columnsSet = metaData.getColumns(database, MYSQL_USERNAME, tableName, null);
+                        // 获取所有的主键
+                        ResultSet keySet = metaData.getPrimaryKeys(database, MYSQL_USERNAME, tableName);
+                        String key = "";
+                        while (keySet.next()) {
+                            key = keySet.getString(4);
+                        }
+
+                        // 构建SwaggerModel对象
+                        SwaggerModel swaggerModel = new SwaggerModel();
+                        swaggerModel.setName(tableUpper);
+                        swaggerModel.setType("object");
+                        swaggerModel.setDescription(tableUpper);
+
+                        Map<String, Object> tempMap = getSwaggerModelPropertiesAndKeyType(columnsSet, models, key, typeSet);
+                        assert tempMap != null;
+                        Object swaggerModelProperties = tempMap.get("swaggerModelProperties");
+                        String keyType = (String) tempMap.get("keyType");
+
+                        // 属性集合
+                        swaggerModel.setProperties((List<SwaggerModelProperties>) swaggerModelProperties);
+                        swaggerModels.add(swaggerModel);
+
+                        // 创建该表的JavaBean
+                        Map<String, Object> modelMap = new HashMap<>(HASH_MAP_SIZE);
+                        modelMap.put("author", AUTHOR);
+                        modelMap.put("table", table);
+                        modelMap.put("tableUpper", tableUpper);
+                        modelMap.put("swagger", SWAGGER);
+                        modelMap.put("tableName", tableName);
+                        modelMap.put("models", models);
+                        modelMap.put("typeSet", typeSet);
+                        modelMap.put("date", DATE);
+                        // 主键操作
+                        modelMap.put("keySetMethod", "set" + StringUtils.firstUpper(StringUtils.replace(key)));
+                        modelMap.put("keyType", keyType);
+                        // TODO SERVICE_NAME
+                        modelMap.put("serviceName", SERVICE_NAME);
+
+                        // TODO 创建JavaBean
+                        EntityBuilder.builder(modelMap);
+
+                        // 添加swagger路径映射
+                        String format = "string";
+                        if ("integer".equalsIgnoreCase(keyType) || "long".equalsIgnoreCase(keyType)) {
+                            format = "int64";
+                        }
+                        swaggerPaths.addAll(swaggerMethodInit(tableUpper, table, StringUtils.firstLower(keyType), format));
                     }
-
-                    // 构建SwaggerModel对象
-                    SwaggerModel swaggerModel = new SwaggerModel();
-                    swaggerModel.setName(tableUpper);
-                    swaggerModel.setType("object");
-                    swaggerModel.setDescription(tableUpper);
-
-                    Map<String, Object> tempMap = getSwaggerModelPropertiesAndKeyType(columnsSet, models, key, typeSet);
-                    assert tempMap != null;
-                    Object swaggerModelProperties = tempMap.get("swaggerModelProperties");
-                    String keyType = (String) tempMap.get("keyType");
-
-                    // 属性集合
-                    swaggerModel.setProperties((List<SwaggerModelProperties>) swaggerModelProperties);
-                    swaggerModels.add(swaggerModel);
-
-                    // 创建该表的JavaBean
-                    Map<String, Object> modelMap = new HashMap<>(HASH_MAP_SIZE);
-                    modelMap.put("author", AUTHOR);
-                    modelMap.put("table", table);
-                    modelMap.put("tableUpper", tableUpper);
-                    modelMap.put("swagger", SWAGGER);
-                    modelMap.put("tableName", tableName);
-                    modelMap.put("models", models);
-                    modelMap.put("typeSet", typeSet);
-                    // 主键操作
-                    modelMap.put("keySetMethod", "set" + StringUtils.firstUpper(StringUtils.replace(key)));
-                    modelMap.put("keyType", keyType);
-                    // TODO SERVICE_NAME
-                    modelMap.put("serviceName", SERVICE_NAME);
-
-                    // TODO 创建JavaBean
-                    EntityBuilder.builder(modelMap);
-
-                    // 添加swagger路径映射
-                    String format = "string";
-                    if ("integer".equalsIgnoreCase(keyType) || "long".equalsIgnoreCase(keyType)) {
-                        format = "int64";
-                    }
-                    swaggerPaths.addAll(swaggerMethodInit(tableUpper, table, StringUtils.firstLower(keyType), format));
                 }
 
                 // 构建 Swagger 文档数据 - JSON 数据
