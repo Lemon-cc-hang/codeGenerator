@@ -10,11 +10,11 @@ public class ControllerBuilder {
 
     /***
      * 构建Controller
-     * @param modelMap 数据模型
+     * @param dataModel 数据模型
      */
-    public static void builder(Map<String, Object> modelMap) {
+    public static void builder(Map<String, Object> dataModel) {
         //生成Controller层文件
-        BuilderFactory.builder(modelMap,
+        BuilderFactory.builder(dataModel,
                 "/template/controller",
                 "Controller.java",
                 TemplateBuilder.PACKAGE_CONTROLLER,

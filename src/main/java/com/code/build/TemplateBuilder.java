@@ -78,6 +78,11 @@ public class TemplateBuilder {
     public static String PROJECT_PATH;
 
     /**
+     * 资源路径
+     */
+    public static String RESOURCES_PATH;
+
+    /**
      * 是否使用swagger
      *
      */
@@ -87,12 +92,6 @@ public class TemplateBuilder {
      * swagger-ui路径
      */
     public static String SWAGGER_UI_PATH;
-
-    /**
-     * TODO 不明白
-     *  服务名字
-     */
-    public static String SERVICE_NAME;
 
     /**
      * 需要去除的前缀
@@ -137,14 +136,13 @@ public class TemplateBuilder {
             PACKAGE_ENTITY = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.entity");
             PACKAGE_MAPPER = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.mapper");
             PACKAGE_SERVICE = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.service");
-            PACKAGE_SERVICE_IMPL = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.serviceImpl");
+            PACKAGE_SERVICE_IMPL = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.service") + ".impl";
             PACKAGE_CONTROLLER = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.controller");
             MYSQL_USERNAME = PROPERTIES.getProperty("mysql.datasource.username");
             MYSQL_PASSWORD = PROPERTIES.getProperty("mysql.datasource.password");
             MYSQL_URL = PROPERTIES.getProperty("mysql.datasource.url");
             MYSQL_DRIVER_CLASS_NAME = PROPERTIES.getProperty("mysql.datasource.driver-class-name");
             SWAGGER = Boolean.valueOf(PROPERTIES.getProperty("swagger.enable"));
-            SERVICE_NAME = PROPERTIES.getProperty("service.name");
             SWAGGER_UI_PATH = PACKAGE_PARENT + "." + PROPERTIES.getProperty("swagger.ui.path");
             TABLE_PREFIX = PROPERTIES.getProperty("table.prefix").split(",");
             AUTHOR = PROPERTIES.getProperty("author");
@@ -152,7 +150,8 @@ public class TemplateBuilder {
 
             // 工程路径
             PROJECT_PATH = Objects.requireNonNull(TemplateBuilder.class.getClassLoader().getResource("")).getPath().replace("/target/classes", "") + "/src/main/java/";
-
+            // 资源路径
+            RESOURCES_PATH = Objects.requireNonNull(TemplateBuilder.class.getClassLoader().getResource("")).getPath().replace("/target/classes", "") + "/src/main/resources/";
             // 加载数据库驱动
             Class.forName(MYSQL_DRIVER_CLASS_NAME);
 
@@ -220,6 +219,7 @@ public class TemplateBuilder {
                         Object swaggerModelProperties = tempMap.get("swaggerModelProperties");
                         String keyType = (String) tempMap.get("keyType");
 
+                        // ===================创建模块 [START]===================
                         // 属性集合
                         swaggerModel.setProperties((List<SwaggerModelProperties>) swaggerModelProperties);
                         swaggerModels.add(swaggerModel);
@@ -237,11 +237,29 @@ public class TemplateBuilder {
                         // 主键操作
                         modelMap.put("keySetMethod", "set" + StringUtils.firstUpper(StringUtils.replace(key)));
                         modelMap.put("keyType", keyType);
-                        // TODO SERVICE_NAME
-                        modelMap.put("serviceName", SERVICE_NAME);
 
-                        // TODO 创建JavaBean
+                        // 创建JavaBean
+                        System.out.println("[INFO] 正在创建 " + PACKAGE_ENTITY.replace(".", "/") + "/" + tableUpper + ".java");
                         EntityBuilder.builder(modelMap);
+
+                        // 创建Mapper
+                        System.out.println("[INFO] 正在创建 " + PACKAGE_MAPPER.replace(".", "/") + "/" + tableUpper + "Mapper.java");
+                        MapperBuilder.builder(modelMap);
+                        // 创建Mapper.xml
+                        System.out.println("[INFO] 正在创建 resources/mapper/" + tableUpper + "Mapper.xml");
+                        MapperBuilder.mkdirMapperXml(modelMap);
+
+                        // 创建Service
+                        System.out.println("[INFO] 正在创建 " + PACKAGE_SERVICE.replace(".", "/") + "/" + tableUpper + "Service.java");
+                        ServiceBuilder.builder(modelMap);
+                        // 创建ServiceImpl
+                        System.out.println("[INFO] 正在创建 " + PACKAGE_SERVICE.replace(".", "/") + "/impl/" + tableUpper + "ServiceImpl.java");
+                        ServiceImplBuilder.builder(modelMap);
+
+                        // 创建Controller
+                        System.out.println("[INFO] 正在创建 " + PACKAGE_CONTROLLER.replace(".", "/") + "/" + tableUpper + "Controller.java");
+                        ControllerBuilder.builder(modelMap);
+                        // ===================创建模块 [END]===================
 
                         // 添加swagger路径映射
                         String format = "string";

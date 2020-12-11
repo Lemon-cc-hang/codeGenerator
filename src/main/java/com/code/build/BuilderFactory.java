@@ -12,15 +12,14 @@ import java.util.Map;
  */
 public class BuilderFactory {
     /**
-     * 构建Controller
-     *
-     * @param modelMap     数据模型
+     * 建造工厂
+     * @param dataModel    数据模型
      * @param templatePath 模板路径
      * @param templateFile 模板文件
      * @param storePath    存储路径
      * @param suffix       生成文件后缀名
      */
-    public static void builder(Map<String, Object> modelMap,
+    public static void builder(Map<String, Object> dataModel,
                                String templatePath,
                                String templateFile,
                                String storePath,
@@ -37,7 +36,7 @@ public class BuilderFactory {
             }
 
             // 创建文件
-            TemplateUtil.writer(template, modelMap, path + "/" + modelMap.get("tableUpper") + suffix);
+            TemplateUtil.writer(template, dataModel, path + "/" + dataModel.get("tableUpper") + suffix);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -12,12 +12,11 @@ import ${set};
 </#list>
 /**
  * <p>
- *     ${tableUpper} 构建
+ *     实体类
  * </p>
  *
  * @author ${author}
  * @since ${date}
- *
  */
 @Data
 @EqualsAndHashCode
@@ -32,10 +31,8 @@ public class ${tableUpper} implements Serializable {
     <#if swagger==true>
     @ApiModelProperty(value = "${model.desc!""}")
     </#if>
-    <#if model.id==true && model.identity='YES'>
-    @TableId(type = IdType.AUTO)
-    <#elseif model.id==true>
-    @TableId
+    <#if model.id==true>
+    @TableId<#if model.identity='YES'>(type = IdType.AUTO)</#if>
     </#if>
     private ${model.simpleType} ${model.name};
 
