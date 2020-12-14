@@ -35,11 +35,12 @@ public class TemplateUtil {
      * 输出文件
      */
     public static void writer(Template template, Map<String, Object> dataModel, String file) throws Exception {
-        //包参数
-        dataModel.put("package_parent", TemplateBuilder.PACKAGE_PARENT);
+        // 包参数
+        dataModel.put("package_config", TemplateBuilder.PACKAGE_CONFIG);
         dataModel.put("package_controller", TemplateBuilder.PACKAGE_CONTROLLER);
         dataModel.put("package_controller_suffix", TemplateBuilder.PACKAGE_CONTROLLER_SUFFIX);
         dataModel.put("package_entity", TemplateBuilder.PACKAGE_ENTITY);
+        dataModel.put("package_entity_suffix", TemplateBuilder.PACKAGE_ENTITY_SUFFIX);
         dataModel.put("package_mapper", TemplateBuilder.PACKAGE_MAPPER);
         dataModel.put("package_mapper_suffix", TemplateBuilder.PACKAGE_MAPPER_SUFFIX);
         dataModel.put("package_service", TemplateBuilder.PACKAGE_SERVICE);
@@ -48,6 +49,8 @@ public class TemplateUtil {
         dataModel.put("package_service_impl_suffix", TemplateBuilder.PACKAGE_SERVICE_IMPL_SUFFIX);
         dataModel.put("package_feign", TemplateBuilder.PACKAGE_FEIGN);
         dataModel.put("package_feign_suffix", TemplateBuilder.PACKAGE_FEIGN_SUFFIX);
+        dataModel.put("package_rsp_name", TemplateBuilder.PACKAGE_RSP_NAME);
+        dataModel.put("package_rsp", TemplateBuilder.PACKAGE_RSP);
 
         // 创建一个Writer对象，一般创建一FileWriter对象，指定生成的文件名。
         Writer out = new FileWriter(file);

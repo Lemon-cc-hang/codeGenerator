@@ -27,14 +27,19 @@ public class TemplateBuilder {
     private static final Properties PROPERTIES_DEFAULT = new Properties();
 
     /**
-     * 生成的根目录
+     * Config
      */
-    public static String PACKAGE_PARENT;
+    public static String PACKAGE_CONFIG;
 
     /**
      * Entity
      */
     public static String PACKAGE_ENTITY;
+
+    /**
+     * Entity文件后缀
+     */
+    public static String PACKAGE_ENTITY_SUFFIX;
 
     /**
      * Mapper
@@ -90,6 +95,16 @@ public class TemplateBuilder {
      * Feign服务名
      */
     public static String PACKAGE_SERVICE_NAME;
+
+    /**
+     * 结果集类名
+     */
+    public static String PACKAGE_RSP_NAME;
+
+    /**
+     * 结果集包名
+     */
+    public static String PACKAGE_RSP;
 
     /**
      * mysql-username
@@ -191,25 +206,31 @@ public class TemplateBuilder {
             PROPERTIES_DEFAULT.load(isDefault);
 
             // 获取对应的配置信息
-            PACKAGE_PARENT = getProperty("packageConfig.parent");
-            PACKAGE_ENTITY = PACKAGE_PARENT + "." + getProperty("packageConfig.entity");
-            PACKAGE_MAPPER = PACKAGE_PARENT + "." + getProperty("packageConfig.mapper");
+            PACKAGE_CONFIG = getProperty("packageConfig.config");
+            PACKAGE_ENTITY = getProperty("packageConfig.entity");
+            PACKAGE_ENTITY_SUFFIX = getProperty("packageConfig.entity.suffix");
+            if (PACKAGE_ENTITY_SUFFIX == null) {
+                PACKAGE_ENTITY_SUFFIX = "";
+            }
+            PACKAGE_MAPPER = getProperty("packageConfig.mapper");
             PACKAGE_MAPPER_SUFFIX = getProperty("packageConfig.mapper.suffix");
-            PACKAGE_SERVICE = PACKAGE_PARENT + "." + getProperty("packageConfig.service");
+            PACKAGE_SERVICE = getProperty("packageConfig.service");
             PACKAGE_SERVICE_SUFFIX = PROPERTIES.getProperty("packageConfig.service.suffix");
-            PACKAGE_SERVICE_IMPL = PACKAGE_PARENT + "." + getProperty("packageConfig.service.impl");
+            PACKAGE_SERVICE_IMPL = getProperty("packageConfig.service.impl");
             PACKAGE_SERVICE_IMPL_SUFFIX = PROPERTIES.getProperty("packageConfig.service.impl.suffix");
-            PACKAGE_CONTROLLER = PACKAGE_PARENT + "." + getProperty("packageConfig.controller");
+            PACKAGE_CONTROLLER = getProperty("packageConfig.controller");
             PACKAGE_CONTROLLER_SUFFIX = getProperty("packageConfig.controller.suffix");
-            PACKAGE_FEIGN = PACKAGE_PARENT + "." + getProperty("packageConfig.feign");
+            PACKAGE_FEIGN = getProperty("packageConfig.feign");
             PACKAGE_FEIGN_SUFFIX = getProperty("packageConfig.feign.suffix");
             PACKAGE_SERVICE_NAME = getProperty("packageConfig.service.name");
+            PACKAGE_RSP_NAME = getProperty("packageConfig.rsp.name");
+            PACKAGE_RSP = getProperty("packageConfig.rsp");
             MYSQL_USERNAME = getProperty("mysql.datasource.username");
             MYSQL_PASSWORD = getProperty("mysql.datasource.password");
             MYSQL_URL = getProperty("mysql.datasource.url");
             MYSQL_DRIVER_CLASS_NAME = getProperty("mysql.datasource.driver-class-name");
             SWAGGER = Boolean.valueOf(getProperty("swagger.enable"));
-            SWAGGER_PATH = PACKAGE_PARENT + "." + getProperty("swagger.path");
+            SWAGGER_PATH = getProperty("swagger.path");
             String temp = getProperty("table.prefix");
             if (temp != null ) {
                 TABLE_PREFIX = temp.split(",");
@@ -365,7 +386,7 @@ public class TemplateBuilder {
                     }
                     if (SWAGGER) {
                         //构建Swagger文档数据-JSON数据
-                        Map<String, Object> swaggerModelMap = new HashMap<String, Object>();
+                        Map<String, Object> swaggerModelMap = new HashMap<>();
                         swaggerModelMap.put("swaggerModels", swaggerModels);
                         swaggerModelMap.put("swaggerPathList", swaggerPaths);
                         //生成Swagger文件
@@ -455,7 +476,7 @@ public class TemplateBuilder {
         addAndFindAllPath.setPath("/" + table);
 
         // 初始化方法
-        List<SwaggerMethod> swaggerMethods = addAndFindAll(tableUpper, table);
+        List<SwaggerMethod> swaggerMethods = addAndFindAll(tableUpper);
         addAndFindAllPath.setMethods(swaggerMethods);
         swaggerPaths.add(addAndFindAllPath);
 
@@ -464,7 +485,7 @@ public class TemplateBuilder {
         //设置请求路径
         handlerByIdPath.setPath("/" + table + "/{id}");
         //初始化方法
-        List<SwaggerMethod> handlerByIdMethods = handlerById(tableUpper, table, type, format);
+        List<SwaggerMethod> handlerByIdMethods = handlerById(tableUpper, type, format);
         handlerByIdPath.setMethods(handlerByIdMethods);
         swaggerPaths.add(handlerByIdPath);
 
@@ -473,7 +494,7 @@ public class TemplateBuilder {
         //设置请求路径
         searchPath.setPath("/" + table + "/search");
         //初始化方法
-        List<SwaggerMethod> searchMethods = searchMethod(tableUpper, table);
+        List<SwaggerMethod> searchMethods = searchMethod(tableUpper);
         searchPath.setMethods(searchMethods);
         swaggerPaths.add(searchPath);
 
@@ -482,7 +503,7 @@ public class TemplateBuilder {
         //设置请求路径
         pageSearchPath.setPath("/" + table + "/search/{page}/{size}");
         //初始化方法
-        List<SwaggerMethod> pageSearchMethods = searchPage(tableUpper, table);
+        List<SwaggerMethod> pageSearchMethods = searchPage(tableUpper);
         pageSearchPath.setMethods(pageSearchMethods);
         swaggerPaths.add(pageSearchPath);
         return swaggerPaths;
@@ -491,19 +512,18 @@ public class TemplateBuilder {
     /***
      * 条件搜索
      * @param tableUpper 模型
-     * @param table 表名
      * @return List
      */
-    public static List<SwaggerMethod> searchMethod(String tableUpper, String table) {
+    public static List<SwaggerMethod> searchMethod(String tableUpper) {
         //存储所有方法操作
-        List<SwaggerMethod> swaggerMethods = new ArrayList<SwaggerMethod>();
+        List<SwaggerMethod> swaggerMethods = new ArrayList<>();
 
         //1.不带分页条件搜索
         SwaggerMethod searchMethod = search(tableUpper, "不带分页条件搜索", "findListUsingPOST", "post");
         //设置请求参数
         searchMethod.setSwaggerParameters(searchPageParameters(tableUpper, 2, 1));
         //响应状态
-        searchMethod.setResponses(responses(tableUpper));
+        searchMethod.setResponses(responses());
         //响应数据配置-200
         SwaggerResponse resp200Search = new SwaggerResponse();
         resp200Search.setCode(200);
@@ -518,18 +538,17 @@ public class TemplateBuilder {
     /***
      * 分页和搜索
      * @param tableUpper 模型
-     * @param table 表名
      * @return List
      */
-    public static List<SwaggerMethod> searchPage(String tableUpper, String table) {
+    public static List<SwaggerMethod> searchPage(String tableUpper) {
         //存储所有方法操作
-        List<SwaggerMethod> swaggerMethods = new ArrayList<SwaggerMethod>();
+        List<SwaggerMethod> swaggerMethods = new ArrayList<>();
         //1.分页列表
         SwaggerMethod pageMethod = search(tableUpper, "分页列表查询", "findPageUsingGET", "get");
         //设置请求参数
         pageMethod.setSwaggerParameters(searchPageParameters(tableUpper, 1, 2));
         //响应状态
-        pageMethod.setResponses(responses(tableUpper));
+        pageMethod.setResponses(responses());
         //响应数据配置-200
         SwaggerResponse resp200Page = new SwaggerResponse();
         resp200Page.setCode(200);
@@ -543,7 +562,7 @@ public class TemplateBuilder {
         //设置请求参数
         pageSearchMethod.setSwaggerParameters(searchPageParameters(tableUpper, 1, 1));
         //响应状态
-        pageSearchMethod.setResponses(responses(tableUpper));
+        pageSearchMethod.setResponses(responses());
         //响应数据配置-200
         SwaggerResponse resp200PageSearch = new SwaggerResponse();
         resp200PageSearch.setCode(200);
@@ -557,19 +576,18 @@ public class TemplateBuilder {
     /***
      * 根据ID删除、修改、查询
      * @param tableUpper 模型
-     * @param table 表名
      * @return List
      */
-    public static List<SwaggerMethod> handlerById(String tableUpper, String table, String type, String format) {
+    public static List<SwaggerMethod> handlerById(String tableUpper, String type, String format) {
         //存储所有方法操作
-        List<SwaggerMethod> swaggerMethods = new ArrayList<SwaggerMethod>();
+        List<SwaggerMethod> swaggerMethods = new ArrayList<>();
 
         //1.根据ID删除
         SwaggerMethod deleteMethod = delete(tableUpper);
         //设置请求参数
         deleteMethod.setSwaggerParameters(byIdParameters(tableUpper, type, format, "根据ID删除", 1));
         //响应状态
-        deleteMethod.setResponses(responses(tableUpper));
+        deleteMethod.setResponses(responses());
         //响应数据配置-200
         SwaggerResponse resp200Delete = new SwaggerResponse();
         resp200Delete.setCode(200);
@@ -583,7 +601,7 @@ public class TemplateBuilder {
         //设置请求参数
         updateMethod.setSwaggerParameters(byIdParameters(tableUpper, type, format, "根据ID修改", 2));
         //响应状态
-        updateMethod.setResponses(responses(tableUpper));
+        updateMethod.setResponses(responses());
         //响应数据配置-200
         SwaggerResponse resp200Update = new SwaggerResponse();
         resp200Update.setCode(200);
@@ -597,7 +615,7 @@ public class TemplateBuilder {
         //设置请求参数
         findByIdMethod.setSwaggerParameters(byIdParameters(tableUpper, type, format, "根据ID修改", 1));
         //响应状态
-        findByIdMethod.setResponses(responses(tableUpper));
+        findByIdMethod.setResponses(responses());
         //响应数据配置-200
         SwaggerResponse resp200FindById = new SwaggerResponse();
         resp200FindById.setCode(200);
@@ -611,17 +629,16 @@ public class TemplateBuilder {
     /***
      * 增加方法和查询所有
      * @param tableUpper 模型
-     * @param table 表名
      * @return List
      */
-    public static List<SwaggerMethod> addAndFindAll(String tableUpper, String table) {
+    public static List<SwaggerMethod> addAndFindAll(String tableUpper) {
         //存储所有方法操作
-        List<SwaggerMethod> swaggerMethods = new ArrayList<SwaggerMethod>();
+        List<SwaggerMethod> swaggerMethods = new ArrayList<>();
 
         //1.findAll
         SwaggerMethod findAllMethod = findAll(tableUpper);
         //响应状态
-        findAllMethod.setResponses(responses(tableUpper));
+        findAllMethod.setResponses(responses());
         //响应数据配置-200
         SwaggerResponse resp200FindAll = new SwaggerResponse();
         resp200FindAll.setCode(200);
@@ -635,7 +652,7 @@ public class TemplateBuilder {
         //入参
         addMethod.setSwaggerParameters(addParameters(tableUpper));
         //响应状态
-        addMethod.setResponses(responses(tableUpper));
+        addMethod.setResponses(responses());
         //响应数据配置-200
         SwaggerResponse resp200Add = new SwaggerResponse();
         resp200Add.setCode(200);
@@ -698,7 +715,7 @@ public class TemplateBuilder {
      */
     public static List<SwaggerParameter> byIdParameters(String tableUpper, String type, String format, String message, int buildModel) {
         //集合
-        List<SwaggerParameter> swaggerParameterList = new ArrayList<SwaggerParameter>();
+        List<SwaggerParameter> swaggerParameterList = new ArrayList<>();
         //入参
         SwaggerParameter swaggerParameter = new SwaggerParameter();
         swaggerParameter.setIn("path");
@@ -728,7 +745,7 @@ public class TemplateBuilder {
      * @return List
      */
     public static List<SwaggerParameter> addParameters(String tableUpper) {
-        List<SwaggerParameter> swaggerParameterList = new ArrayList<SwaggerParameter>();
+        List<SwaggerParameter> swaggerParameterList = new ArrayList<>();
         //入参
         SwaggerParameter swaggerParameter = new SwaggerParameter();
         swaggerParameter.setIn("body");
@@ -849,10 +866,9 @@ public class TemplateBuilder {
 
     /***
      * 响应状态
-     * @param tableUpper 模型
      * @return List
      */
-    public static List<SwaggerResponse> responses(String tableUpper) {
+    public static List<SwaggerResponse> responses() {
         List<SwaggerResponse> responses = new ArrayList<>();
         //响应数据配置-400
         SwaggerResponse resp400 = new SwaggerResponse();

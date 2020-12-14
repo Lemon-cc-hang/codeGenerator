@@ -1,6 +1,6 @@
 package ${package_mapper};
 
-import ${package_entity}.${tableUpper};
+import ${package_entity}.${tableUpper}${package_entity_suffix};
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -17,5 +17,5 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface ${tableUpper}${package_mapper_suffix} extends BaseMapper<${tableUpper}>{
+public interface ${tableUpper}${package_mapper_suffix} extends BaseMapper<${tableUpper}${package_entity_suffix}>{
 }

@@ -27,13 +27,12 @@ public class ConfigBuilder {
      */
     public static void builder(Map<String, Object> dataModel, String templateFile) {
         try {
-            String storePath = TemplateBuilder.PACKAGE_PARENT + ".config";
             String templatePath = "/template/config";
             // 获取模板对象
             Template template = TemplateUtil.loadTemplate(BuilderFactory.class.getResource(templatePath).getPath(), templateFile);
 
             // 创建文件夹
-            String path = TemplateBuilder.PROJECT_PATH + storePath.replace(".", "/");
+            String path = TemplateBuilder.PROJECT_PATH + TemplateBuilder.PACKAGE_CONFIG.replace(".", "/");
             File file = new File(path);
             if (!file.exists()) {
                 file.mkdirs();

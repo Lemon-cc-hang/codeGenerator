@@ -1,4 +1,5 @@
 package ${package_entity};
+
 <#if swagger==true>
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -23,9 +24,9 @@ import ${set};
 @Data
 @EqualsAndHashCode
 <#if swagger==true>
-@ApiModel(description = "${tableUpper}",value = "${tableUpper}")
+@ApiModel(description = "${tableUpper}${package_entity_suffix}",value = "${tableUpper}${package_entity_suffix}")
 </#if>
-public class ${tableUpper} implements Serializable {
+public class ${tableUpper}${package_entity_suffix} implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +35,7 @@ public class ${tableUpper} implements Serializable {
     @ApiModelProperty(value = "${model.desc!""}")
     </#if>
     <#if model.id==true>
-    @TableId<#if model.identity='YES'>(type = ${idType})</#if>
+    @TableId(type = ${idType})
     </#if>
     private ${model.simpleType} ${model.name};
 

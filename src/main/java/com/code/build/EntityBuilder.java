@@ -18,6 +18,6 @@ public class EntityBuilder {
                 "/template/entity",
                 "Entity.java",
                 TemplateBuilder.PACKAGE_ENTITY,
-                ".java");
+                TemplateBuilder.PACKAGE_ENTITY_SUFFIX + ".java");
     }
 }
