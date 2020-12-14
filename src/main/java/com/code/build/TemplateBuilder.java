@@ -255,6 +255,11 @@ public class TemplateBuilder {
         }
     }
 
+    /**
+     * 获取配置文件信息
+     * @param property 字段
+     * @return 信息
+     */
     public static String getProperty(String property) {
         String temp = PROPERTIES.getProperty(property);
         if (temp == null || "".equals(temp)) {
@@ -405,6 +410,14 @@ public class TemplateBuilder {
         }
     }
 
+    /**
+     * 获取Swagger信息和主键类型
+     * @param columnsSet 字段集合
+     * @param models 模型
+     * @param key 主键
+     * @param typeSet 类型集合
+     * @return Swagger信息和主键类型
+     */
     private static Map<String, Object> getSwaggerModelPropertiesAndKeyType(ResultSet columnsSet, List<ModelInfo> models, String key, Set<String> typeSet) {
         try {
             String keyType = "";
@@ -509,7 +522,7 @@ public class TemplateBuilder {
         return swaggerPaths;
     }
 
-    /***
+    /**
      * 条件搜索
      * @param tableUpper 模型
      * @return List
@@ -535,7 +548,7 @@ public class TemplateBuilder {
         return swaggerMethods;
     }
 
-    /***
+    /**
      * 分页和搜索
      * @param tableUpper 模型
      * @return List
@@ -573,7 +586,7 @@ public class TemplateBuilder {
         return swaggerMethods;
     }
 
-    /***
+    /**
      * 根据ID删除、修改、查询
      * @param tableUpper 模型
      * @return List
@@ -626,7 +639,7 @@ public class TemplateBuilder {
         return swaggerMethods;
     }
 
-    /***
+    /**
      * 增加方法和查询所有
      * @param tableUpper 模型
      * @return List
@@ -663,7 +676,7 @@ public class TemplateBuilder {
         return swaggerMethods;
     }
 
-    /***
+    /**
      * 分页搜索
      * @param tableUpper 模型
      * @param isPage:是否分页     1:分页   2：不分
@@ -707,7 +720,7 @@ public class TemplateBuilder {
         return swaggerParameterList;
     }
 
-    /***
+    /**
      * 根据ID操作数据
      * @param tableUpper 模型
      * @param buildModel:是否创建JavaBean对象   1不创建，2创建
@@ -739,7 +752,7 @@ public class TemplateBuilder {
         return swaggerParameterList;
     }
 
-    /***
+    /**
      * POST添加数据入参
      * @param tableUpper 模型
      * @return List
@@ -758,7 +771,7 @@ public class TemplateBuilder {
     }
 
 
-    /***
+    /**
      * 条件搜索
      * @param tableUpper 模型
      * @return SwaggerMethod
@@ -778,7 +791,7 @@ public class TemplateBuilder {
     }
 
 
-    /***
+    /**
      * 根据ID查询方法
      * @param tableUpper 模型
      * @return SwaggerMethod
@@ -795,7 +808,7 @@ public class TemplateBuilder {
         return deleteMethod;
     }
 
-    /***
+    /**
      * 根据ID修改方法
      * @param tableUpper 模型
      * @return SwaggerMethod
@@ -812,7 +825,7 @@ public class TemplateBuilder {
         return deleteMethod;
     }
 
-    /***
+    /**
      * 根据ID删除方法
      * @param tableUpper 模型
      * @return SwaggerMethod
@@ -829,7 +842,7 @@ public class TemplateBuilder {
         return deleteMethod;
     }
 
-    /***
+    /**
      * 添加数据
      * @param tableUpper 模型
      * @return SwaggerMethod
@@ -847,7 +860,7 @@ public class TemplateBuilder {
     }
 
 
-    /***
+    /**
      * 查询所有
      * @param tableUpper 模型
      * @return SwaggerMethod
@@ -864,7 +877,7 @@ public class TemplateBuilder {
         return findAllMethod;
     }
 
-    /***
+    /**
      * 响应状态
      * @return List
      */
