@@ -34,7 +34,7 @@ public class ${tableUpper} implements Serializable {
     @ApiModelProperty(value = "${model.desc!""}")
     </#if>
     <#if model.id==true>
-    @TableId<#if model.identity='YES'>(type = IdType.AUTO)</#if>
+    @TableId<#if model.identity='YES'>(type = ${idType})</#if>
     </#if>
     private ${model.simpleType} ${model.name};
 

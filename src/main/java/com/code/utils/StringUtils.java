@@ -68,9 +68,7 @@ public class StringUtils {
      */
     public static String removePrefix(String str, String[] prefix) {
         if (null != prefix) {
-
-            for(int i = 0; i < prefix.length; ++i) {
-                String pf = prefix[i];
+            for (String pf : prefix) {
                 if (str.toLowerCase().matches("^" + pf.toLowerCase() + ".*")) {
                     // 截取前缀后面的字符串
                     return str.substring(pf.length());

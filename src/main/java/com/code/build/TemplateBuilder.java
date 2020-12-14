@@ -172,6 +172,11 @@ public class TemplateBuilder {
      */
     public static Boolean FEIGN_ENABLE;
 
+    /**
+     * strategy.idType
+     */
+    public static String ID_TYPE;
+
     static {
         try {
             // 加载配置文件
@@ -205,11 +210,17 @@ public class TemplateBuilder {
             MYSQL_DRIVER_CLASS_NAME = getProperty("mysql.datasource.driver-class-name");
             SWAGGER = Boolean.valueOf(getProperty("swagger.enable"));
             SWAGGER_PATH = PACKAGE_PARENT + "." + getProperty("swagger.path");
-            TABLE_PREFIX = getProperty("table.prefix").split(",");
+            String temp = getProperty("table.prefix");
+            if (temp != null ) {
+                TABLE_PREFIX = temp.split(",");
+            }else {
+                TABLE_PREFIX = null;
+            }
             AUTHOR = getProperty("author");
             TABLE_NAME = getProperty("table.name").split(",");
             CONTROLLER_ENABLE = Boolean.valueOf(getProperty("strategy.controller.enable"));
             FEIGN_ENABLE = Boolean.valueOf(getProperty("strategy.feign.enable"));
+            ID_TYPE = getProperty("strategy.idType");
 
             // 工程路径
             PROJECT_PATH = Objects.requireNonNull(TemplateBuilder.class.getClassLoader().getResource("")).getPath().replace("/target/classes", "") + "/src/main/java/";
@@ -305,6 +316,7 @@ public class TemplateBuilder {
                         modelMap.put("models", models);
                         modelMap.put("typeSet", typeSet);
                         modelMap.put("date", DATE);
+                        modelMap.put("idType", ID_TYPE);
                         // 主键操作
                         modelMap.put("keySetMethod", "set" + StringUtils.firstUpper(StringUtils.replace(key)));
                         modelMap.put("keyType", keyType);

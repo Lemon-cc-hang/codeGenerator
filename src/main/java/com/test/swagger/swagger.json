@@ -1,0 +1,1651 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "微服务工程代码生成器,生成Mapper、Service、Controller、Entity、Feign、Swagger等的JSON脚本",
+    "version": "1.0.0",
+    "title": "代码生成器",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags": [
+        {
+      "name": "BrandController",
+      "description": "BrandController"
+    },
+    {
+      "name": "BrandController",
+      "description": "BrandController"
+    },
+    {
+      "name": "BrandController",
+      "description": "BrandController"
+    },
+    {
+      "name": "BrandController",
+      "description": "BrandController"
+    },
+    {
+      "name": "CategoryBrandController",
+      "description": "CategoryBrandController"
+    },
+    {
+      "name": "CategoryBrandController",
+      "description": "CategoryBrandController"
+    },
+    {
+      "name": "CategoryBrandController",
+      "description": "CategoryBrandController"
+    },
+    {
+      "name": "CategoryBrandController",
+      "description": "CategoryBrandController"
+    },
+    {
+      "name": "SkuController",
+      "description": "SkuController"
+    },
+    {
+      "name": "SkuController",
+      "description": "SkuController"
+    },
+    {
+      "name": "SkuController",
+      "description": "SkuController"
+    },
+    {
+      "name": "SkuController",
+      "description": "SkuController"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/brand": {
+      "get": {
+        "tags": [
+          "BrandController"
+        ],
+        "summary": "查询所有Brand",
+        "description": "查询所有Brand方法详情",
+        "operationId": "findAllUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "查询所有Brand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«Brand»»"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "BrandController"
+        ],
+        "summary": "添加Brand",
+        "description": "添加Brand方法详情",
+        "operationId": "addUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "添加Brand方法详情",
+            "required": true
+        ,
+          "schema": {
+            "$ref": "#/definitions/Brand"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "添加Brand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        }
+      }
+    },
+    "/brand/{id}": {
+      "delete": {
+        "tags": [
+          "BrandController"
+        ],
+        "summary": "根据ID删除Brand",
+        "description": "根据ID删除Brand方法详情",
+        "operationId": "deleteUsingDELETE",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "根据ID删除Brand方法详情",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "根据ID删除Brand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "BrandController"
+        ],
+        "summary": "根据ID修改Brand",
+        "description": "根据ID修改Brand方法详情",
+        "operationId": "updateUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "根据ID修改Brand方法详情",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "Brand",
+            "description": "传入Brand的JSON对象",
+            "required": false
+        ,
+          "schema": {
+            "$ref": "#/definitions/Brand"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "根据ID修改Brand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "BrandController"
+        ],
+        "summary": "根据ID查询Brand",
+        "description": "根据ID查询Brand方法详情",
+        "operationId": "findByIdUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "根据ID修改Brand方法详情",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "根据ID修改Brand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«Brand»"
+            }
+          }
+        }
+      }
+    },
+    "/brand/search": {
+      "post": {
+        "tags": [
+          "BrandController"
+        ],
+        "summary": "不带分页条件搜索Brand",
+        "description": "不带分页条件搜索Brand方法详情",
+        "operationId": "findListUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Brand",
+            "description": "传入Brand的JSON对象",
+            "required": false
+        ,
+          "schema": {
+            "$ref": "#/definitions/Brand"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "不带分页搜索Brand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«Brand»»"
+            }
+          }
+        }
+      }
+    },
+    "/brand/search/{page}/{size}": {
+      "get": {
+        "tags": [
+          "BrandController"
+        ],
+        "summary": "分页列表查询Brand",
+        "description": "分页列表查询Brand方法详情",
+        "operationId": "findPageUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "description": "当前页",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "size",
+            "description": "每页显示条数",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "不带分页搜索Brand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«Brand»»"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "BrandController"
+        ],
+        "summary": "分页条件搜索Brand",
+        "description": "分页条件搜索Brand方法详情",
+        "operationId": "findPageUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "description": "当前页",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "size",
+            "description": "每页显示条数",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "Brand",
+            "description": "传入Brand的JSON对象",
+            "required": false
+        ,
+          "schema": {
+            "$ref": "#/definitions/Brand"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "分页条件搜索Brand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«Brand»»"
+            }
+          }
+        }
+      }
+    },
+    "/categoryBrand": {
+      "get": {
+        "tags": [
+          "CategoryBrandController"
+        ],
+        "summary": "查询所有CategoryBrand",
+        "description": "查询所有CategoryBrand方法详情",
+        "operationId": "findAllUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "查询所有CategoryBrand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«CategoryBrand»»"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CategoryBrandController"
+        ],
+        "summary": "添加CategoryBrand",
+        "description": "添加CategoryBrand方法详情",
+        "operationId": "addUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "添加CategoryBrand方法详情",
+            "required": true
+        ,
+          "schema": {
+            "$ref": "#/definitions/CategoryBrand"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "添加CategoryBrand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        }
+      }
+    },
+    "/categoryBrand/{id}": {
+      "delete": {
+        "tags": [
+          "CategoryBrandController"
+        ],
+        "summary": "根据ID删除CategoryBrand",
+        "description": "根据ID删除CategoryBrand方法详情",
+        "operationId": "deleteUsingDELETE",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "根据ID删除CategoryBrand方法详情",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "根据ID删除CategoryBrand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "CategoryBrandController"
+        ],
+        "summary": "根据ID修改CategoryBrand",
+        "description": "根据ID修改CategoryBrand方法详情",
+        "operationId": "updateUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "根据ID修改CategoryBrand方法详情",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "CategoryBrand",
+            "description": "传入CategoryBrand的JSON对象",
+            "required": false
+        ,
+          "schema": {
+            "$ref": "#/definitions/CategoryBrand"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "根据ID修改CategoryBrand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "CategoryBrandController"
+        ],
+        "summary": "根据ID查询CategoryBrand",
+        "description": "根据ID查询CategoryBrand方法详情",
+        "operationId": "findByIdUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "根据ID修改CategoryBrand方法详情",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "根据ID修改CategoryBrand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«CategoryBrand»"
+            }
+          }
+        }
+      }
+    },
+    "/categoryBrand/search": {
+      "post": {
+        "tags": [
+          "CategoryBrandController"
+        ],
+        "summary": "不带分页条件搜索CategoryBrand",
+        "description": "不带分页条件搜索CategoryBrand方法详情",
+        "operationId": "findListUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "CategoryBrand",
+            "description": "传入CategoryBrand的JSON对象",
+            "required": false
+        ,
+          "schema": {
+            "$ref": "#/definitions/CategoryBrand"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "不带分页搜索CategoryBrand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«CategoryBrand»»"
+            }
+          }
+        }
+      }
+    },
+    "/categoryBrand/search/{page}/{size}": {
+      "get": {
+        "tags": [
+          "CategoryBrandController"
+        ],
+        "summary": "分页列表查询CategoryBrand",
+        "description": "分页列表查询CategoryBrand方法详情",
+        "operationId": "findPageUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "description": "当前页",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "size",
+            "description": "每页显示条数",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "不带分页搜索CategoryBrand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«CategoryBrand»»"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CategoryBrandController"
+        ],
+        "summary": "分页条件搜索CategoryBrand",
+        "description": "分页条件搜索CategoryBrand方法详情",
+        "operationId": "findPageUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "description": "当前页",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "size",
+            "description": "每页显示条数",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "CategoryBrand",
+            "description": "传入CategoryBrand的JSON对象",
+            "required": false
+        ,
+          "schema": {
+            "$ref": "#/definitions/CategoryBrand"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "分页条件搜索CategoryBrand"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«CategoryBrand»»"
+            }
+          }
+        }
+      }
+    },
+    "/sku": {
+      "get": {
+        "tags": [
+          "SkuController"
+        ],
+        "summary": "查询所有Sku",
+        "description": "查询所有Sku方法详情",
+        "operationId": "findAllUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "查询所有Sku"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«Sku»»"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "SkuController"
+        ],
+        "summary": "添加Sku",
+        "description": "添加Sku方法详情",
+        "operationId": "addUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "添加Sku方法详情",
+            "required": true
+        ,
+          "schema": {
+            "$ref": "#/definitions/Sku"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "添加Sku"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        }
+      }
+    },
+    "/sku/{id}": {
+      "delete": {
+        "tags": [
+          "SkuController"
+        ],
+        "summary": "根据ID删除Sku",
+        "description": "根据ID删除Sku方法详情",
+        "operationId": "deleteUsingDELETE",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "根据ID删除Sku方法详情",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "根据ID删除Sku"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "SkuController"
+        ],
+        "summary": "根据ID修改Sku",
+        "description": "根据ID修改Sku方法详情",
+        "operationId": "updateUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "根据ID修改Sku方法详情",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "Sku",
+            "description": "传入Sku的JSON对象",
+            "required": false
+        ,
+          "schema": {
+            "$ref": "#/definitions/Sku"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "根据ID修改Sku"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "SkuController"
+        ],
+        "summary": "根据ID查询Sku",
+        "description": "根据ID查询Sku方法详情",
+        "operationId": "findByIdUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "根据ID修改Sku方法详情",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "根据ID修改Sku"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«Sku»"
+            }
+          }
+        }
+      }
+    },
+    "/sku/search": {
+      "post": {
+        "tags": [
+          "SkuController"
+        ],
+        "summary": "不带分页条件搜索Sku",
+        "description": "不带分页条件搜索Sku方法详情",
+        "operationId": "findListUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Sku",
+            "description": "传入Sku的JSON对象",
+            "required": false
+        ,
+          "schema": {
+            "$ref": "#/definitions/Sku"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "不带分页搜索Sku"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«Sku»»"
+            }
+          }
+        }
+      }
+    },
+    "/sku/search/{page}/{size}": {
+      "get": {
+        "tags": [
+          "SkuController"
+        ],
+        "summary": "分页列表查询Sku",
+        "description": "分页列表查询Sku方法详情",
+        "operationId": "findPageUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "description": "当前页",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "size",
+            "description": "每页显示条数",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "不带分页搜索Sku"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«Sku»»"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "SkuController"
+        ],
+        "summary": "分页条件搜索Sku",
+        "description": "分页条件搜索Sku方法详情",
+        "operationId": "findPageUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "page",
+            "description": "当前页",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "size",
+            "description": "每页显示条数",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "Sku",
+            "description": "传入Sku的JSON对象",
+            "required": false
+        ,
+          "schema": {
+            "$ref": "#/definitions/Sku"
+          }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid status value(无效的状态值)"
+                      },
+          "403": {
+            "description": "403 Forbidden(请求被拒绝)"
+                      },
+          "404": {
+            "description": "not found(没有找到相关资源)"
+                      },
+          "405": {
+            "description": "Invalid input(无效的输入)"
+                      },
+          "500": {
+            "description": "服务器内部错误"
+                      },
+          "200": {
+            "description": "分页条件搜索Sku"
+            ,
+            "schema": {
+              "$ref": "#/definitions/Result«List«Sku»»"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Result": {
+      "type": "object",
+      "required": [
+        "code",
+        "data",
+        "flag",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "返回状态码,20000:成功,20001:失败,20002:用户名或密码错误,20003:权限不足,20004:远程调用失败,20005:重复操作,20006:没有对应的数据"
+        },
+        "data": {
+          "type": "object",
+          "description": "逻辑数据"
+        },
+        "flag": {
+          "type": "boolean",
+          "example": false,
+          "description": "执行是否成功,true:成功,false:失败"
+        },
+        "message": {
+          "type": "string",
+          "description": "提示信息"
+        }
+      },
+      "description": "Result"
+    },
+    "Result«List«Brand»»": {
+      "type": "object",
+      "required": [
+        "code",
+        "data",
+        "flag",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "返回状态码,20000:成功,20001:失败,20002:用户名或密码错误,20003:权限不足,20004:远程调用失败,20005:重复操作,20006:没有对应的数据"
+        },
+        "data": {
+          "type": "array",
+          "description": "逻辑数据",
+          "items": {
+            "$ref": "#/definitions/Brand"
+          }
+        },
+        "flag": {
+          "type": "boolean",
+          "example": false,
+          "description": "执行是否成功,true:成功,false:失败"
+        },
+        "message": {
+          "type": "string",
+          "description": "提示信息"
+        }
+      },
+      "description": "Result"
+    },
+    "Result«Brand»": {
+      "type": "object",
+      "required": [
+        "code",
+        "data",
+        "flag",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "返回状态码,20000:成功,20001:失败,20002:用户名或密码错误,20003:权限不足,20004:远程调用失败,20005:重复操作,20006:没有对应的数据"
+        },
+        "data": {
+          "description": "逻辑数据",
+          "$ref": "#/definitions/Brand"
+        },
+        "flag": {
+          "type": "boolean",
+          "example": false,
+          "description": "执行是否成功,true:成功,false:失败"
+        },
+        "message": {
+          "type": "string",
+          "description": "提示信息"
+        }
+      },
+      "description": "Result"
+    },
+    "Brand": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "品牌id"
+        },
+        "name": {
+          "type": "string",
+          "description": "品牌名称"
+        },
+        "image": {
+          "type": "string",
+          "description": "品牌图片地址"
+        },
+        "letter": {
+          "type": "string",
+          "description": "品牌的首字母"
+        },
+        "seq": {
+          "type": "integer",
+          "format": "int32",
+          "description": "排序"
+        }
+      },
+      "description": "Brand"
+    },
+    "Result«List«CategoryBrand»»": {
+      "type": "object",
+      "required": [
+        "code",
+        "data",
+        "flag",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "返回状态码,20000:成功,20001:失败,20002:用户名或密码错误,20003:权限不足,20004:远程调用失败,20005:重复操作,20006:没有对应的数据"
+        },
+        "data": {
+          "type": "array",
+          "description": "逻辑数据",
+          "items": {
+            "$ref": "#/definitions/CategoryBrand"
+          }
+        },
+        "flag": {
+          "type": "boolean",
+          "example": false,
+          "description": "执行是否成功,true:成功,false:失败"
+        },
+        "message": {
+          "type": "string",
+          "description": "提示信息"
+        }
+      },
+      "description": "Result"
+    },
+    "Result«CategoryBrand»": {
+      "type": "object",
+      "required": [
+        "code",
+        "data",
+        "flag",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "返回状态码,20000:成功,20001:失败,20002:用户名或密码错误,20003:权限不足,20004:远程调用失败,20005:重复操作,20006:没有对应的数据"
+        },
+        "data": {
+          "description": "逻辑数据",
+          "$ref": "#/definitions/CategoryBrand"
+        },
+        "flag": {
+          "type": "boolean",
+          "example": false,
+          "description": "执行是否成功,true:成功,false:失败"
+        },
+        "message": {
+          "type": "string",
+          "description": "提示信息"
+        }
+      },
+      "description": "Result"
+    },
+    "CategoryBrand": {
+      "type": "object",
+      "properties": {
+        "categoryId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "分类ID"
+        },
+        "brandId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "品牌ID"
+        }
+      },
+      "description": "CategoryBrand"
+    },
+    "Result«List«Sku»»": {
+      "type": "object",
+      "required": [
+        "code",
+        "data",
+        "flag",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "返回状态码,20000:成功,20001:失败,20002:用户名或密码错误,20003:权限不足,20004:远程调用失败,20005:重复操作,20006:没有对应的数据"
+        },
+        "data": {
+          "type": "array",
+          "description": "逻辑数据",
+          "items": {
+            "$ref": "#/definitions/Sku"
+          }
+        },
+        "flag": {
+          "type": "boolean",
+          "example": false,
+          "description": "执行是否成功,true:成功,false:失败"
+        },
+        "message": {
+          "type": "string",
+          "description": "提示信息"
+        }
+      },
+      "description": "Result"
+    },
+    "Result«Sku»": {
+      "type": "object",
+      "required": [
+        "code",
+        "data",
+        "flag",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "返回状态码,20000:成功,20001:失败,20002:用户名或密码错误,20003:权限不足,20004:远程调用失败,20005:重复操作,20006:没有对应的数据"
+        },
+        "data": {
+          "description": "逻辑数据",
+          "$ref": "#/definitions/Sku"
+        },
+        "flag": {
+          "type": "boolean",
+          "example": false,
+          "description": "执行是否成功,true:成功,false:失败"
+        },
+        "message": {
+          "type": "string",
+          "description": "提示信息"
+        }
+      },
+      "description": "Result"
+    },
+    "Sku": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "long",
+          "description": "商品id"
+        },
+        "sn": {
+          "type": "string",
+          "description": "商品条码"
+        },
+        "name": {
+          "type": "string",
+          "description": "SKU名称"
+        },
+        "price": {
+          "type": "integer",
+          "format": "int32",
+          "description": "价格（分）"
+        },
+        "num": {
+          "type": "integer",
+          "format": "int32",
+          "description": "库存数量"
+        },
+        "alertNum": {
+          "type": "integer",
+          "format": "int32",
+          "description": "库存预警数量"
+        },
+        "image": {
+          "type": "string",
+          "description": "商品图片"
+        },
+        "images": {
+          "type": "string",
+          "description": "商品图片列表"
+        },
+        "weight": {
+          "type": "integer",
+          "format": "int32",
+          "description": "重量（克）"
+        },
+        "createTime": {
+          "type": "date",
+          "description": "创建时间"
+        },
+        "updateTime": {
+          "type": "date",
+          "description": "更新时间"
+        },
+        "spuId": {
+          "type": "long",
+          "description": "SPUID"
+        },
+        "categoryId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "类目ID"
+        },
+        "categoryName": {
+          "type": "string",
+          "description": "类目名称"
+        },
+        "brandName": {
+          "type": "string",
+          "description": "品牌名称"
+        },
+        "spec": {
+          "type": "string",
+          "description": "规格"
+        },
+        "saleNum": {
+          "type": "integer",
+          "format": "int32",
+          "description": "销量"
+        },
+        "commentNum": {
+          "type": "integer",
+          "format": "int32",
+          "description": "评论数"
+        },
+        "status": {
+          "type": "string",
+          "description": "商品状态 1-正常，2-下架，3-删除"
+        }
+      },
+      "description": "Sku"
+    }
+  },
+}
