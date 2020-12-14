@@ -17,6 +17,6 @@ public class ServiceBuilder {
                 "/template/service",
                 "Service.java",
                 TemplateBuilder.PACKAGE_SERVICE,
-                "Service.java");
+                TemplateBuilder.PACKAGE_SERVICE_SUFFIX + ".java");
     }
 }

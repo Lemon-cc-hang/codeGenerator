@@ -22,7 +22,7 @@ public class MapperBuilder {
                 "/template/mapper",
                 "Mapper.java",
                 TemplateBuilder.PACKAGE_MAPPER,
-                "Mapper.java");
+                TemplateBuilder.PACKAGE_MAPPER_SUFFIX + ".java");
     }
 
     /**

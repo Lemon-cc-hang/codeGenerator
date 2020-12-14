@@ -8,9 +8,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  *     服务类
  * </p>
  *
+ <#if author??>
  * @author ${author}
+</#if>
  * @since ${date}
  */
-public interface ${tableUpper}Service extends IService<${tableUpper}> {
+public interface ${tableUpper}${package_service_suffix} extends IService<${tableUpper}> {
 
 }

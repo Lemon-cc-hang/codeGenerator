@@ -10,10 +10,12 @@ import org.springframework.stereotype.Repository;
  *     Mapper 接口
  * </p>
  *
+ <#if author??>
  * @author ${author}
+</#if>
  * @since ${date}
  */
 @Mapper
 @Repository
-public interface ${tableUpper}Mapper extends BaseMapper<${tableUpper}>{
+public interface ${tableUpper}${package_mapper_suffix} extends BaseMapper<${tableUpper}>{
 }

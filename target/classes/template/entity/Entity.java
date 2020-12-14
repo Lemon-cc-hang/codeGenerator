@@ -15,7 +15,9 @@ import ${set};
  *     实体类
  * </p>
  *
+ <#if author??>
  * @author ${author}
+</#if>
  * @since ${date}
  */
 @Data

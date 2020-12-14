@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 
 /**
  * 模板构造
@@ -21,6 +20,11 @@ public class TemplateBuilder {
      * 配置文件
      */
     private static final Properties PROPERTIES = new Properties();
+
+    /**
+     * 默认配置文件
+     */
+    private static final Properties PROPERTIES_DEFAULT = new Properties();
 
     /**
      * 生成的根目录
@@ -38,9 +42,19 @@ public class TemplateBuilder {
     public static String PACKAGE_MAPPER;
 
     /**
+     * Mapper文件后缀
+     */
+    public static String PACKAGE_MAPPER_SUFFIX;
+
+    /**
      * Service 层
      */
     public static String PACKAGE_SERVICE;
+
+    /**
+     * Service文件后缀
+     */
+    public static String PACKAGE_SERVICE_SUFFIX;
 
     /**
      * ServiceImpl
@@ -48,9 +62,34 @@ public class TemplateBuilder {
     public static String PACKAGE_SERVICE_IMPL;
 
     /**
+     * ServiceImpl文件后缀
+     */
+    public static String PACKAGE_SERVICE_IMPL_SUFFIX;
+
+    /**
      * Controller
      */
     public static String PACKAGE_CONTROLLER;
+
+    /**
+     * Controller文件后缀
+     */
+    public static String PACKAGE_CONTROLLER_SUFFIX;
+
+    /**
+     * Feign
+     */
+    public static String PACKAGE_FEIGN;
+
+    /**
+     * Feign文件后缀
+     */
+    public static String PACKAGE_FEIGN_SUFFIX;
+
+    /**
+     * Feign服务名
+     */
+    public static String PACKAGE_SERVICE_NAME;
 
     /**
      * mysql-username
@@ -91,7 +130,7 @@ public class TemplateBuilder {
     /**
      * swagger-ui路径
      */
-    public static String SWAGGER_UI_PATH;
+    public static String SWAGGER_PATH;
 
     /**
      * 需要去除的前缀
@@ -121,7 +160,17 @@ public class TemplateBuilder {
     /**
      * 时间
      */
-    public static final String DATE = new SimpleDateFormat("yyyy-MM-dd").format(new Date().getTime());
+    public static final String DATE = new SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis());
+
+    /**
+     * strategy.controller.enable
+     */
+    public static Boolean CONTROLLER_ENABLE;
+
+    /**
+     * strategy.feign.enable
+     */
+    public static Boolean FEIGN_ENABLE;
 
     static {
         try {
@@ -131,22 +180,36 @@ public class TemplateBuilder {
             // 创建properties对象
             PROPERTIES.load(is);
 
+            InputStream isDefault = TemplateBuilder.class.getClassLoader().getResourceAsStream("default/application_default.properties");
+
+            // 创建properties对象
+            PROPERTIES_DEFAULT.load(isDefault);
+
             // 获取对应的配置信息
-            PACKAGE_PARENT = PROPERTIES.getProperty("packageConfig.parent");
-            PACKAGE_ENTITY = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.entity");
-            PACKAGE_MAPPER = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.mapper");
-            PACKAGE_SERVICE = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.service");
-            PACKAGE_SERVICE_IMPL = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.service") + ".impl";
-            PACKAGE_CONTROLLER = PACKAGE_PARENT + "." + PROPERTIES.getProperty("packageConfig.controller");
-            MYSQL_USERNAME = PROPERTIES.getProperty("mysql.datasource.username");
-            MYSQL_PASSWORD = PROPERTIES.getProperty("mysql.datasource.password");
-            MYSQL_URL = PROPERTIES.getProperty("mysql.datasource.url");
-            MYSQL_DRIVER_CLASS_NAME = PROPERTIES.getProperty("mysql.datasource.driver-class-name");
-            SWAGGER = Boolean.valueOf(PROPERTIES.getProperty("swagger.enable"));
-            SWAGGER_UI_PATH = PACKAGE_PARENT + "." + PROPERTIES.getProperty("swagger.ui.path");
-            TABLE_PREFIX = PROPERTIES.getProperty("table.prefix").split(",");
-            AUTHOR = PROPERTIES.getProperty("author");
-            TABLE_NAME = PROPERTIES.getProperty("table.name").split(",");
+            PACKAGE_PARENT = getProperty("packageConfig.parent");
+            PACKAGE_ENTITY = PACKAGE_PARENT + "." + getProperty("packageConfig.entity");
+            PACKAGE_MAPPER = PACKAGE_PARENT + "." + getProperty("packageConfig.mapper");
+            PACKAGE_MAPPER_SUFFIX = getProperty("packageConfig.mapper.suffix");
+            PACKAGE_SERVICE = PACKAGE_PARENT + "." + getProperty("packageConfig.service");
+            PACKAGE_SERVICE_SUFFIX = PROPERTIES.getProperty("packageConfig.service.suffix");
+            PACKAGE_SERVICE_IMPL = PACKAGE_PARENT + "." + getProperty("packageConfig.service.impl");
+            PACKAGE_SERVICE_IMPL_SUFFIX = PROPERTIES.getProperty("packageConfig.service.impl.suffix");
+            PACKAGE_CONTROLLER = PACKAGE_PARENT + "." + getProperty("packageConfig.controller");
+            PACKAGE_CONTROLLER_SUFFIX = getProperty("packageConfig.controller.suffix");
+            PACKAGE_FEIGN = PACKAGE_PARENT + "." + getProperty("packageConfig.feign");
+            PACKAGE_FEIGN_SUFFIX = getProperty("packageConfig.feign.suffix");
+            PACKAGE_SERVICE_NAME = getProperty("packageConfig.service.name");
+            MYSQL_USERNAME = getProperty("mysql.datasource.username");
+            MYSQL_PASSWORD = getProperty("mysql.datasource.password");
+            MYSQL_URL = getProperty("mysql.datasource.url");
+            MYSQL_DRIVER_CLASS_NAME = getProperty("mysql.datasource.driver-class-name");
+            SWAGGER = Boolean.valueOf(getProperty("swagger.enable"));
+            SWAGGER_PATH = PACKAGE_PARENT + "." + getProperty("swagger.path");
+            TABLE_PREFIX = getProperty("table.prefix").split(",");
+            AUTHOR = getProperty("author");
+            TABLE_NAME = getProperty("table.name").split(",");
+            CONTROLLER_ENABLE = Boolean.valueOf(getProperty("strategy.controller.enable"));
+            FEIGN_ENABLE = Boolean.valueOf(getProperty("strategy.feign.enable"));
 
             // 工程路径
             PROJECT_PATH = Objects.requireNonNull(TemplateBuilder.class.getClassLoader().getResource("")).getPath().replace("/target/classes", "") + "/src/main/java/";
@@ -158,6 +221,14 @@ public class TemplateBuilder {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static String getProperty(String property) {
+        String temp = PROPERTIES.getProperty(property);
+        if (temp == null || "".equals(temp)) {
+            return PROPERTIES_DEFAULT.getProperty(property);
+        }
+        return temp;
     }
 
     /**
@@ -226,7 +297,7 @@ public class TemplateBuilder {
 
                         // 创建该表的JavaBean
                         Map<String, Object> modelMap = new HashMap<>(HASH_MAP_SIZE);
-                        modelMap.put("author", AUTHOR);
+                        modelMap.put("author", null);
                         modelMap.put("table", table);
                         modelMap.put("tableUpper", tableUpper);
                         modelMap.put("swagger", SWAGGER);
@@ -243,22 +314,30 @@ public class TemplateBuilder {
                         EntityBuilder.builder(modelMap);
 
                         // 创建Mapper
-                        System.out.println("[INFO] 正在创建 " + PACKAGE_MAPPER.replace(".", "/") + "/" + tableUpper + "Mapper.java");
+                        System.out.println("[INFO] 正在创建 " + PACKAGE_MAPPER.replace(".", "/") + "/" + tableUpper + PACKAGE_MAPPER_SUFFIX + ".java");
                         MapperBuilder.builder(modelMap);
                         // 创建Mapper.xml
                         System.out.println("[INFO] 正在创建 resources/mapper/" + tableUpper + "Mapper.xml");
                         MapperBuilder.mkdirMapperXml(modelMap);
 
                         // 创建Service
-                        System.out.println("[INFO] 正在创建 " + PACKAGE_SERVICE.replace(".", "/") + "/" + tableUpper + "Service.java");
+                        System.out.println("[INFO] 正在创建 " + PACKAGE_SERVICE.replace(".", "/") + "/" + tableUpper + PACKAGE_SERVICE_SUFFIX + ".java");
                         ServiceBuilder.builder(modelMap);
                         // 创建ServiceImpl
-                        System.out.println("[INFO] 正在创建 " + PACKAGE_SERVICE.replace(".", "/") + "/impl/" + tableUpper + "ServiceImpl.java");
+                        System.out.println("[INFO] 正在创建 " + PACKAGE_SERVICE.replace(".", "/") + tableUpper + PACKAGE_SERVICE_IMPL_SUFFIX + ".java");
                         ServiceImplBuilder.builder(modelMap);
 
                         // 创建Controller
-                        System.out.println("[INFO] 正在创建 " + PACKAGE_CONTROLLER.replace(".", "/") + "/" + tableUpper + "Controller.java");
-                        ControllerBuilder.builder(modelMap);
+                        if (CONTROLLER_ENABLE) {
+                            System.out.println("[INFO] 正在创建 " + PACKAGE_CONTROLLER.replace(".", "/") + "/" + tableUpper + PACKAGE_CONTROLLER_SUFFIX + ".java");
+                            ControllerBuilder.builder(modelMap);
+                        }
+                        // 创建Feign
+                        if (FEIGN_ENABLE) {
+                            modelMap.put("serviceName", PACKAGE_SERVICE_NAME);
+                            System.out.println("[INFO] 正在创建 " + PACKAGE_FEIGN.replace(".", "/") + "/" + tableUpper + PACKAGE_FEIGN_SUFFIX + ".java");
+                            FeignBuilder.builder(modelMap);
+                        }
                         // ===================创建模块 [END]===================
 
                         // 添加swagger路径映射
@@ -267,6 +346,15 @@ public class TemplateBuilder {
                             format = "int64";
                         }
                         swaggerPaths.addAll(swaggerMethodInit(tableUpper, table, StringUtils.firstLower(keyType), format));
+
+                    }
+                    if (SWAGGER) {
+                        //构建Swagger文档数据-JSON数据
+                        Map<String, Object> swaggerModelMap = new HashMap<String, Object>();
+                        swaggerModelMap.put("swaggerModels", swaggerModels);
+                        swaggerModelMap.put("swaggerPathList", swaggerPaths);
+                        //生成Swagger文件
+                        SwaggerBuilder.builder(swaggerModelMap);
                     }
                 }
 

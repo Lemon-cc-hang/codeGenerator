@@ -1,10 +1,10 @@
-package ${package_controller}
+package ${package_controller};
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${package_entity}.${tableUpper};
-import ${package_service}.${tableUpper}Service;
+import ${package_service}.${tableUpper}${package_service_suffix};
 <#if swagger==true>
 import io.swagger.annotations.*;
 </#if>
@@ -19,18 +19,20 @@ import java.util.List;
  *  前端控制器
  * </p>
  *
+<#if author??>
  * @author ${author}
+</#if>
  * @since ${date}
  */
 <#if swagger==true>
-@Api(value = "${tableUpper}Controller")
+@Api(value = "${tableUpper}${package_controller_suffix}")
 </#if>
 @RestController
 @RequestMapping("/${table}")
-public class ${tableUpper}Controller {
+public class ${tableUpper}${package_controller_suffix} {
 
     @Autowired
-    private ${tableUpper}Service ${table}Service;
+    private ${tableUpper}${package_service_suffix} ${table}${package_service_suffix};
 
     /**
      * 查询所有${tableUpper}
@@ -41,7 +43,7 @@ public class ${tableUpper}Controller {
     </#if>
     @RequestMapping(value = "/findAll", method = {RequestMethod.GET})
     public List<${tableUpper}> findAll() {
-        return ${table}Service.list();
+        return ${table}${package_service_suffix}.list();
     }
 
     /**
@@ -55,7 +57,7 @@ public class ${tableUpper}Controller {
     </#if>
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
     public ${tableUpper} findById(@PathVariable("id") Long id) {
-        return ${table}Service.getById(id);
+        return ${table}${package_service_suffix}.getById(id);
     }
 
     /**
@@ -68,7 +70,7 @@ public class ${tableUpper}Controller {
     </#if>
     @RequestMapping(value = {"/update", "/add"}, method = {RequestMethod.POST})
     public boolean update(@RequestBody <#if swagger==true>@ApiParam(name = "${tableUpper}对象",value = "传入JSON数据")</#if> ${tableUpper} ${table}) {
-        return ${table}Service.saveOrUpdate(${table});
+        return ${table}${package_service_suffix}.saveOrUpdate(${table});
     }
 
     /**
@@ -82,7 +84,7 @@ public class ${tableUpper}Controller {
     </#if>
     @RequestMapping(value = {"/delete/{id}"}, method = {RequestMethod.GET})
     public boolean delete(@PathVariable("id") Long id) {
-        return ${table}Service.removeById(id);
+        return ${table}${package_service_suffix}.removeById(id);
     }
 
     /**
@@ -104,7 +106,7 @@ public class ${tableUpper}Controller {
             page = 1;
         }
         Page<${tableUpper}> pages = new Page<>(page, size);
-        return ${table}Service.page(pages);
+        return ${table}${package_service_suffix}.page(pages);
     }
 
     /**
@@ -126,7 +128,7 @@ public class ${tableUpper}Controller {
             page = 1;
         }
         Page<${tableUpper}> pages = new Page<>(page, size);
-        return ${table}Service.page(pages);
+        return ${table}${package_service_suffix}.page(pages);
     }
 }
 
