@@ -13,14 +13,22 @@ import java.util.Map;
 public class ConfigBuilder {
 
     /**
-     * config建造工厂
+     * config 建造工厂
      * @param dataModel    数据模型
      */
     public static void builder(Map<String, Object> dataModel) {
+        builder(dataModel, "MyBatisPlusConfig.java");
+    }
+
+    /**
+     * config建造工厂
+     * @param dataModel    数据模型
+     * @param templateFile 模板文件名
+     */
+    public static void builder(Map<String, Object> dataModel, String templateFile) {
         try {
             String storePath = TemplateBuilder.PACKAGE_PARENT + ".config";
-            String templatePath = "template/config";
-            String templateFile = "Config.java";
+            String templatePath = "/template/config";
             // 获取模板对象
             Template template = TemplateUtil.loadTemplate(BuilderFactory.class.getResource(templatePath).getPath(), templateFile);
 
@@ -32,7 +40,7 @@ public class ConfigBuilder {
             }
 
             // 创建文件
-            TemplateUtil.writer(template, dataModel, path + "/" + "BaseConfig");
+            TemplateUtil.writer(template, dataModel, path + "/" + templateFile);
         } catch (Exception e) {
             e.printStackTrace();
         }

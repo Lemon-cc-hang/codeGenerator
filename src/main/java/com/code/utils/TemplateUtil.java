@@ -36,6 +36,7 @@ public class TemplateUtil {
      */
     public static void writer(Template template, Map<String, Object> dataModel, String file) throws Exception {
         //包参数
+        dataModel.put("package_parent", TemplateBuilder.PACKAGE_PARENT);
         dataModel.put("package_controller", TemplateBuilder.PACKAGE_CONTROLLER);
         dataModel.put("package_controller_suffix", TemplateBuilder.PACKAGE_CONTROLLER_SUFFIX);
         dataModel.put("package_entity", TemplateBuilder.PACKAGE_ENTITY);

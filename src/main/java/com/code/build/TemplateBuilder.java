@@ -350,6 +350,9 @@ public class TemplateBuilder {
                             System.out.println("[INFO] 正在创建 " + PACKAGE_FEIGN.replace(".", "/") + "/" + tableUpper + PACKAGE_FEIGN_SUFFIX + ".java");
                             FeignBuilder.builder(modelMap);
                         }
+                        // 创建Config
+                        System.out.println("[INFO] 正在创建 config文件 ");
+                        ConfigBuilder.builder(modelMap);
                         // ===================创建模块 [END]===================
 
                         // 添加swagger路径映射
