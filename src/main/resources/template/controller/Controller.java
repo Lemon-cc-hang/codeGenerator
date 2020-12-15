@@ -1,6 +1,7 @@
 package ${package_controller};
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${package_entity}.${tableUpper}${package_entity_suffix};
 import ${package_service}.${tableUpper}${package_service_suffix};
@@ -10,9 +11,6 @@ import io.swagger.annotations.*;
 </#if>
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 
 /**
  * <p>
@@ -104,7 +102,7 @@ public class ${tableUpper}${package_controller_suffix} {
         }
         if (${table}${package_service_suffix}.removeById(id)) {
            logger.error("delete ${table} error");
-            return ${package_rsp_name).error(${package_rsp_name}.RSP_CODE_ERROR);
+            return ${package_rsp_name}.error(${package_rsp_name}.RSP_CODE__ERROR);
         }
         return ${package_rsp_name}.success();
     }

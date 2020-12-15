@@ -1,6 +1,7 @@
 package ${package_controller};
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${package_entity}.${tableUpper}${package_entity_suffix};
 import ${package_service}.${tableUpper}${package_service_suffix};
@@ -11,7 +12,6 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 
 /**
@@ -30,6 +30,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/${table}")
 public class ${tableUpper}${package_controller_suffix} {
+
+    static Logger logger = LoggerFactory.getLogger(${tableUpper}${package_controller_suffix}.class);
 
     @Autowired
     private ${tableUpper}${package_service_suffix} ${table}${package_service_suffix};
@@ -57,6 +59,10 @@ public class ${tableUpper}${package_controller_suffix} {
     </#if>
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
     public ${package_rsp_name} findById(@PathVariable("id") Long id) {
+        if (id == null) {
+            logger.error("id is null");
+            return ${package_rsp_name}.invalidParameter();
+        }
         return ${package_rsp_name}.success(${table}${package_service_suffix}.getById(id));
     }
 
@@ -70,7 +76,15 @@ public class ${tableUpper}${package_controller_suffix} {
     </#if>
     @RequestMapping(value = {"/update", "/add"}, method = {RequestMethod.POST})
     public ${package_rsp_name} update(@RequestBody <#if swagger==true>@ApiParam(name = "${tableUpper}${package_entity_suffix}对象",value = "传入JSON数据")</#if> ${tableUpper}${package_entity_suffix} ${table}) {
-        return ${package_rsp_name}.success(${table}${package_service_suffix}.saveOrUpdate(${table}));
+        if (${table} == null) {
+            logger.error("${table} is null");
+            return ${package_rsp_name}.invalidParameter();
+        }
+        if (!${table}${package_service_suffix}.saveOrUpdate(${table})) {
+            logger.error("update or add ${table} error");
+            return ${package_rsp_name}.error(${package_rsp_name}.RSP_CODE__ERROR);
+        }
+        return ${package_rsp_name}.success();
     }
 
     /**
@@ -84,7 +98,15 @@ public class ${tableUpper}${package_controller_suffix} {
     </#if>
     @RequestMapping(value = {"/delete/{id}"}, method = {RequestMethod.GET})
     public ${package_rsp_name} delete(@PathVariable("id") Long id) {
-        return ${package_rsp_name}.success(${table}${package_service_suffix}.removeById(id));
+        if (id == null) {
+            logger.error("id is null");
+            return ${package_rsp_name}.invalidParameter();
+        }
+        if (${table}${package_service_suffix}.removeById(id)) {
+           logger.error("delete ${table} error");
+            return ${package_rsp_name}.error(${package_rsp_name}.RSP_CODE__ERROR);
+        }
+        return ${package_rsp_name}.success();
     }
 
     /**

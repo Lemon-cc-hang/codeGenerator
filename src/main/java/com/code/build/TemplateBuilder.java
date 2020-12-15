@@ -334,7 +334,7 @@ public class TemplateBuilder {
 
                         // 创建该表的JavaBean
                         Map<String, Object> modelMap = new HashMap<>(HASH_MAP_SIZE);
-                        modelMap.put("author", null);
+                        modelMap.put("author", AUTHOR);
                         modelMap.put("table", table);
                         modelMap.put("tableUpper", tableUpper);
                         modelMap.put("swagger", SWAGGER);
