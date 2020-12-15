@@ -276,7 +276,7 @@ public class TemplateBuilder {
             // 获取数据库连接
             Connection connection = DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
             DatabaseMetaData metaData = connection.getMetaData();
-            
+
             // 获取数据库类型: MYSQL
             String databaseType = metaData.getDatabaseProductName();
             
