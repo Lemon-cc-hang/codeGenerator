@@ -114,7 +114,7 @@ public class ${tableUpper}${package_controller_suffix} {
      * @return 实体
      */
     <#if swagger==true>
-    @ApiOperation(value = "${tableUpper}${package_entity_suffix}条件分页查询",notes = "分页条件查询${tableUpper}${package_entity_suffix}方法详情",tags = {"${tableUpper}Controller"})
+    @ApiOperation(value = "${tableUpper}${package_entity_suffix}分页查询",notes = "分页查询${tableUpper}${package_entity_suffix}方法详情",tags = {"${tableUpper}Controller"})
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "path", name = "page", value = "当前页", required = true, dataType = "Integer"),
             @ApiImplicitParam(paramType = "path", name = "size", value = "每页显示条数", required = true, dataType = "Integer")
@@ -136,7 +136,7 @@ public class ${tableUpper}${package_controller_suffix} {
      * @return 实体
      */
     <#if swagger==true>
-    @ApiOperation(value = "${tableUpper}${package_entity_suffix}条件分页查询",notes = "分页条件查询${tableUpper}${package_entity_suffix}方法详情",tags = {"${tableUpper}Controller"})
+    @ApiOperation(value = "${tableUpper}${package_entity_suffix}分页查询",notes = "分页查询${tableUpper}${package_entity_suffix}方法详情",tags = {"${tableUpper}Controller"})
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "path", name = "page", value = "当前页", required = true, dataType = "Integer"),
             @ApiImplicitParam(paramType = "path", name = "size", value = "每页显示条数", required = true, dataType = "Integer")
