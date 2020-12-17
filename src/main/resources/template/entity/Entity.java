@@ -7,9 +7,11 @@ import io.swagger.annotations.ApiModelProperty;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 import java.io.Serializable;
 <#list typeSet as set>
-import ${set};
+import $
+import lombok.experimental.Accessors;{set};
 </#list>
 /**
  * <p>
@@ -23,9 +25,11 @@ import ${set};
  */
 @Data
 @EqualsAndHashCode
+@Accessors(chain = true)
 <#if swagger==true>
 @ApiModel(description = "${tableUpper}${package_entity_suffix}",value = "${tableUpper}${package_entity_suffix}")
 </#if>
+@TableName("${tableName}")
 public class ${tableUpper}${package_entity_suffix} implements Serializable {
 
     private static final long serialVersionUID = 1L;
