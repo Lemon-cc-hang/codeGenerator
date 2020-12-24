@@ -34,8 +34,13 @@ public class ${tableUpper}${package_entity_suffix} implements Serializable {
     <#if swagger==true>
     @ApiModelProperty(value = "${model.desc!""}")
     </#if>
+    /**
+     * ${model.remarks}
+     */
     <#if model.id==true>
     @TableId(type = ${idType})
+    <#else>
+    @TableName(value = ${model.columnName})
     </#if>
     private ${model.simpleType} ${model.name};
 

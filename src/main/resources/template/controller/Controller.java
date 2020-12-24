@@ -56,7 +56,7 @@ public class ${tableUpper}${package_controller_suffix} {
     @ApiImplicitParam(paramType = "path", name = "id", value = "主键ID", required = true, dataType = "${keyType}")
     </#if>
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
-    public ${package_rsp_name} findById(@PathVariable("id") Long id) {
+    public ${package_rsp_name} findById(@PathVariable("id") String id) {
         if (id == null) {
             logger.error("id is null");
             return ${package_rsp_name}.invalidParameter();
@@ -95,12 +95,12 @@ public class ${tableUpper}${package_controller_suffix} {
     @ApiImplicitParam(paramType = "path", name = "id", value = "主键ID", required = true, dataType = "${keyType}")
     </#if>
     @RequestMapping(value = {"/delete/{id}"}, method = {RequestMethod.GET})
-    public ${package_rsp_name} delete(@PathVariable("id") Long id) {
+    public ${package_rsp_name} delete(@PathVariable("id") String id) {
         if (id == null) {
             logger.error("id is null");
             return ${package_rsp_name}.invalidParameter();
         }
-        if (${table}${package_service_suffix}.removeById(id)) {
+        if (!${table}${package_service_suffix}.removeById(id)) {
            logger.error("delete ${table} error");
             return ${package_rsp_name}.error(${package_rsp_name}.RSP_CODE__ERROR);
         }
