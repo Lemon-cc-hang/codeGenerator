@@ -7,10 +7,10 @@ import io.swagger.annotations.ApiModelProperty;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 import java.io.Serializable;
 <#list typeSet as set>
-import $
-import lombok.experimental.Accessors;{set};
+import lombok.experimental.Accessors;
 </#list>
 /**
  * <p>
