@@ -9,9 +9,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import java.io.Serializable;
-<#list typeSet as set>
-import lombok.experimental.Accessors;
-</#list>
 /**
  * <p>
  *     实体类
@@ -37,8 +34,13 @@ public class ${tableUpper}${package_entity_suffix} implements Serializable {
     <#if swagger==true>
     @ApiModelProperty(value = "${model.desc!""}")
     </#if>
+    /**
+     * ${model.desc!""}
+     */
     <#if model.id==true>
-    @TableId(type = ${idType})
+    @TableId(type = ${idType}, value = ${model.column})
+    <#else>
+    @TableName(value = ${model.column})
     </#if>
     private ${model.simpleType} ${model.name};
 
