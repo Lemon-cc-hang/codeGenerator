@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 /**
  * <p>
@@ -38,9 +39,9 @@ public class ${tableUpper}${package_entity_suffix} implements Serializable {
      * ${model.desc!""}
      */
     <#if model.id==true>
-    @TableId(type = ${idType}, value = ${model.column})
+    @TableId(type = ${idType}, value = "${model.column}")
     <#else>
-    @TableName(value = ${model.column})
+    @TableField(value = "${model.column}")
     </#if>
     private ${model.simpleType} ${model.name};
 
