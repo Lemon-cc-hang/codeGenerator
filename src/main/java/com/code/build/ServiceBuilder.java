@@ -4,7 +4,7 @@ import java.util.Map;
 
 /**
  * service接口构造器
- * @auther lemoncc
+ * @author lemoncc
  */
 public class ServiceBuilder {
     /**

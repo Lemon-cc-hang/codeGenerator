@@ -82,6 +82,11 @@ public class TemplateBuilder {
     public static String PACKAGE_CONTROLLER_SUFFIX;
 
     /**
+     * Utils
+     */
+    public static String PACKAGE_UTIL;
+
+    /**
      * Feign
      */
     public static String PACKAGE_FEIGN;
@@ -183,6 +188,11 @@ public class TemplateBuilder {
     public static Boolean CONTROLLER_ENABLE;
 
     /**
+     * strategy.utils.enable
+     */
+    public static Boolean UTIL_ENABLE;
+
+    /**
      * strategy.feign.enable
      */
     public static Boolean FEIGN_ENABLE;
@@ -220,6 +230,7 @@ public class TemplateBuilder {
             PACKAGE_SERVICE_IMPL_SUFFIX = PROPERTIES.getProperty("packageConfig.service.impl.suffix");
             PACKAGE_CONTROLLER = getProperty("packageConfig.controller");
             PACKAGE_CONTROLLER_SUFFIX = getProperty("packageConfig.controller.suffix");
+            PACKAGE_UTIL = getProperty("packageConfig.util");
             PACKAGE_FEIGN = getProperty("packageConfig.feign");
             PACKAGE_FEIGN_SUFFIX = getProperty("packageConfig.feign.suffix");
             PACKAGE_SERVICE_NAME = getProperty("packageConfig.service.name");
@@ -239,6 +250,7 @@ public class TemplateBuilder {
             }
             AUTHOR = getProperty("author");
             TABLE_NAME = getProperty("table.name").split(",");
+            UTIL_ENABLE = Boolean.valueOf(getProperty("strategy.util.enable"));
             CONTROLLER_ENABLE = Boolean.valueOf(getProperty("strategy.controller.enable"));
             FEIGN_ENABLE = Boolean.valueOf(getProperty("strategy.feign.enable"));
             ID_TYPE = getProperty("strategy.idType");
@@ -370,6 +382,13 @@ public class TemplateBuilder {
                             System.out.println("[INFO] 正在创建 " + PACKAGE_CONTROLLER.replace(".", "/") + "/" + tableUpper + PACKAGE_CONTROLLER_SUFFIX + ".java");
                             ControllerBuilder.builder(modelMap);
                         }
+
+                        // 创建Utils
+                        if (UTIL_ENABLE) {
+                            System.out.println("[INFO] 正在创建 " + PACKAGE_UTIL.replace(".", "/"));
+                            UtilBuilder.builder(modelMap);
+                        }
+
                         // 创建Feign
                         if (FEIGN_ENABLE) {
                             modelMap.put("serviceName", PACKAGE_SERVICE_NAME);

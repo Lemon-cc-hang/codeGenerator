@@ -39,6 +39,7 @@ public class TemplateUtil {
         dataModel.put("package_config", TemplateBuilder.PACKAGE_CONFIG);
         dataModel.put("package_controller", TemplateBuilder.PACKAGE_CONTROLLER);
         dataModel.put("package_controller_suffix", TemplateBuilder.PACKAGE_CONTROLLER_SUFFIX);
+        dataModel.put("package_util", TemplateBuilder.PACKAGE_UTIL);
         dataModel.put("package_entity", TemplateBuilder.PACKAGE_ENTITY);
         dataModel.put("package_entity_suffix", TemplateBuilder.PACKAGE_ENTITY_SUFFIX);
         dataModel.put("package_mapper", TemplateBuilder.PACKAGE_MAPPER);
