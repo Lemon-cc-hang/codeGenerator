@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.*;
+
 import java.io.Serializable;
 /**
  * <p>
@@ -32,12 +34,14 @@ public class ${tableUpper}${package_entity_suffix} implements Serializable {
     private static final long serialVersionUID = 1L;
 
 <#list models as model>
-    <#if swagger==true>
-    @ApiModelProperty(value = "${model.desc!""}")
-    </#if>
     /**
      * ${model.desc!""}
      */
+    <#if swagger==true>
+    @ApiModelProperty(value = "${model.desc!""}")
+    </#if>
+    <#if model.desc!="">
+    </#if>
     <#if model.id==true>
     @TableId(type = ${idType}, value = "${model.column}")
     <#else>

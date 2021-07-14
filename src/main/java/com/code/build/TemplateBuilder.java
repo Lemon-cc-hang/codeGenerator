@@ -173,6 +173,11 @@ public class TemplateBuilder {
     public static String AUTHOR;
 
     /**
+     * 是否生成该数据库下所有的表
+     */
+    public static Boolean TABLE_ENABLE;
+
+    /**
      * 需要生成的表名
      */
     public static String[] TABLE_NAME;
@@ -249,6 +254,7 @@ public class TemplateBuilder {
                 TABLE_PREFIX = null;
             }
             AUTHOR = getProperty("author");
+            TABLE_ENABLE = Boolean.valueOf(getProperty("table.enable"));
             TABLE_NAME = getProperty("table.name").split(",");
             UTIL_ENABLE = Boolean.valueOf(getProperty("strategy.util.enable"));
             CONTROLLER_ENABLE = Boolean.valueOf(getProperty("strategy.controller.enable"));
@@ -304,11 +310,20 @@ public class TemplateBuilder {
 
                 // 获取所有表结构
                 for (String table_ : TABLE_NAME) {
-                    ResultSet tables = metaData.getTables(null, "%", table_, new String[]{"TABLE"});
+                    ResultSet tables;
+                    if (TABLE_ENABLE) {
+                        tables = metaData.getTables(null, "%", null, new String[]{"TABLE"});
+                    } else {
+                        tables = metaData.getTables(null, "%", table_, new String[]{"TABLE"});
+                    }
+                    Map<String, Object> modelMap = null;
                     // 循环所有表信息
                     while (tables.next()) {
                         // 获取表名
                         String tableName = tables.getString("TABLE_NAME");
+                        if (tableName.equals("sys_config")) {
+                            continue;
+                        }
                         // 名字操作, 去表tab_, tb_, 去掉_并转驼峰
                         String table = StringUtils.replace(StringUtils.replaceTab(StringUtils.removePrefix(tableName, TABLE_PREFIX)));
                         // 大写对象
@@ -345,7 +360,7 @@ public class TemplateBuilder {
                         swaggerModels.add(swaggerModel);
 
                         // 创建该表的JavaBean
-                        Map<String, Object> modelMap = new HashMap<>(HASH_MAP_SIZE);
+                        modelMap = new HashMap<>(HASH_MAP_SIZE);
                         modelMap.put("author", AUTHOR);
                         modelMap.put("table", table);
                         modelMap.put("tableUpper", tableUpper);
@@ -366,6 +381,7 @@ public class TemplateBuilder {
                         // 创建Mapper
                         System.out.println("[INFO] 正在创建 " + PACKAGE_MAPPER.replace(".", "/") + "/" + tableUpper + PACKAGE_MAPPER_SUFFIX + ".java");
                         MapperBuilder.builder(modelMap);
+
                         // 创建Mapper.xml
                         System.out.println("[INFO] 正在创建 resources/mapper/" + tableUpper + "Mapper.xml");
                         MapperBuilder.mkdirMapperXml(modelMap);
@@ -383,21 +399,13 @@ public class TemplateBuilder {
                             ControllerBuilder.builder(modelMap);
                         }
 
-                        // 创建Utils
-                        if (UTIL_ENABLE) {
-                            System.out.println("[INFO] 正在创建 " + PACKAGE_UTIL.replace(".", "/"));
-                            UtilBuilder.builder(modelMap);
-                        }
-
                         // 创建Feign
                         if (FEIGN_ENABLE) {
                             modelMap.put("serviceName", PACKAGE_SERVICE_NAME);
                             System.out.println("[INFO] 正在创建 " + PACKAGE_FEIGN.replace(".", "/") + "/" + tableUpper + PACKAGE_FEIGN_SUFFIX + ".java");
                             FeignBuilder.builder(modelMap);
                         }
-                        // 创建Config
-                        System.out.println("[INFO] 正在创建 config文件 ");
-                        ConfigBuilder.builder(modelMap);
+
                         // ===================创建模块 [END]===================
 
                         // 添加swagger路径映射
@@ -408,6 +416,20 @@ public class TemplateBuilder {
                         swaggerPaths.addAll(swaggerMethodInit(tableUpper, table, StringUtils.firstLower(keyType), format));
 
                     }
+
+
+                    // 创建Utils
+                    if (modelMap != null && UTIL_ENABLE) {
+                        System.out.println("[INFO] 正在创建 " + PACKAGE_UTIL.replace(".", "/"));
+                        UtilBuilder.builder(modelMap);
+                    }
+
+                    // 创建Config
+                    if (modelMap != null) {
+                        System.out.println("[INFO] 正在创建 config文件 ");
+                        ConfigBuilder.builder(modelMap);
+                    }
+
                     if (SWAGGER) {
                         //构建Swagger文档数据-JSON数据
                         Map<String, Object> swaggerModelMap = new HashMap<>();

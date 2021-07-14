@@ -59,7 +59,7 @@ public class ${tableUpper}${package_controller_suffix} {
     public ${package_rsp_name} findById(@PathVariable("id") String id) {
         if (id == null) {
             logger.error("id is null");
-            return ${package_rsp_name}.invalidParameter();
+            return ${package_rsp_name}.failed("id is null");
         }
         return ${package_rsp_name}.success(${table}${package_service_suffix}.getById(id));
     }
@@ -76,13 +76,13 @@ public class ${tableUpper}${package_controller_suffix} {
     public ${package_rsp_name} update(@RequestBody <#if swagger==true>@ApiParam(name = "${tableUpper}${package_entity_suffix}对象",value = "传入JSON数据")</#if> ${tableUpper}${package_entity_suffix} ${table}) {
         if (${table} == null) {
             logger.error("${table} is null");
-            return ${package_rsp_name}.invalidParameter();
+            return ${package_rsp_name}.failed("${table} is null");
         }
         if (!${table}${package_service_suffix}.saveOrUpdate(${table})) {
             logger.error("update or add ${table} error");
-            return ${package_rsp_name}.error(${package_rsp_name}.RSP_CODE__ERROR);
+            return ${package_rsp_name}.failed("update or add ${table} error");
         }
-        return ${package_rsp_name}.success();
+        return ${package_rsp_name}.success(null);
     }
 
     /**
@@ -98,13 +98,13 @@ public class ${tableUpper}${package_controller_suffix} {
     public ${package_rsp_name} delete(@PathVariable("id") String id) {
         if (id == null) {
             logger.error("id is null");
-            return ${package_rsp_name}.invalidParameter();
+            return ${package_rsp_name}.failed("id is null");
         }
         if (!${table}${package_service_suffix}.removeById(id)) {
            logger.error("delete ${table} error");
-            return ${package_rsp_name}.error(${package_rsp_name}.RSP_CODE__ERROR);
+            return ${package_rsp_name}.failed("delete ${table} error");
         }
-        return ${package_rsp_name}.success();
+        return ${package_rsp_name}.success(null);
     }
 
     /**
